@@ -24,7 +24,7 @@ class SOM:
 		#Initialize random map's weights
 		self._maps_weights = []
 		self._class_list = []
-		
+
 		for counter in range(self._cols*self._rows):
 			self._class_list.append('class_' + str(counter))
 			weight = np.random.rand(self._dimension)
@@ -73,7 +73,7 @@ class SOM:
 		'''
 		Function to transform index position to matrix point.
 		'''
-		neuron_col = neuron_position / self._cols
+		neuron_col = neuron_position / self._rows
 		neuron_row = neuron_position % self._rows
 
 		return neuron_col, neuron_row
@@ -94,7 +94,7 @@ class SOM:
 		neuron: neuron from the map's weights
 		radius: radius of the neighborhood
 		type: type of position that will be return
-			
+
 			Values
 			------
 			vector: the positions are vector index
@@ -106,7 +106,7 @@ class SOM:
 
 		neighbours_matrix = []
 		neighbours_index = []
-		
+
 		#Calculate neighbours in the radius
 		for i in xrange(1, radius+1):
 			#Up
@@ -135,10 +135,10 @@ class SOM:
 			return neighbours_index, neighbours_matrix
 
 
-	def _weights_adjustment(self, 
+	def _weights_adjustment(self,
 							entry,
-							best_neuron, 
-							learning_rate, 
+							best_neuron,
+							learning_rate,
 							function='zero',
 							radius=1):
 		'''
@@ -155,9 +155,9 @@ class SOM:
 				  Values
 				  ------
 				  zero: only the winner neuron's weigths will be updated
-				  quadratic: the winner and the next 4 neighbours_matrix neuron's 
+				  quadratic: the winner and the next 4 neighbours_matrix neuron's
 				  			 weights will be updated
-				  hexagon: the winner and the next 6 neighbours_matrix neuron's 
+				  hexagon: the winner and the next 6 neighbours_matrix neuron's
 				  		   weights will be updated
 		'''
 
@@ -166,7 +166,7 @@ class SOM:
 		new_weights = old_weights+learning_rate*(np.subtract(entry, old_weights))
 		self._maps_weights[best_neuron] = new_weights
 
-		
+
 		#Calculate weights for winner neuron's neighbours
 		if function == 'quadratic':
 			neighbours = self._calculate_neighbours(best_neuron)
@@ -180,9 +180,9 @@ class SOM:
 
 		#TODO: Add rest of the adjustment functions
 
-	def _determine_learning_rate(self, 
-								 max_epochs, 
-								 iteration, 
+	def _determine_learning_rate(self,
+								 max_epochs,
+								 iteration,
 								 function='default'):
 		'''
 		Calculate the learning rate in function of the iterations in the program.
@@ -202,12 +202,12 @@ class SOM:
 		elif function == 'euclidean':
 			return math.exp(-(float(iteration)/float(max_epochs))) #Exponential learning rate
 
-	def _determine_neighborhood_radius(self, 
+	def _determine_neighborhood_radius(self,
 									   max_epochs,
 									   iteration):
 		'''
 		Function to calculate a neighborhood radius based on
-		the number of iterations executed. 
+		the number of iterations executed.
 
 		NOTE: Max radius is 5
 		'''
@@ -242,7 +242,7 @@ class SOM:
 				distance_vector = self._calculate_sinaptic_potential(entry)
 				best = self._get_best_nueron(distance_vector)
 				learning_rate = self._determine_learning_rate(max_epochs, iteration)
-				neighborhood_radius = self._determine_neighborhood_radius(max_epochs, 
+				neighborhood_radius = self._determine_neighborhood_radius(max_epochs,
 																		  iteration)
 				self._weights_adjustment(entry,
 										 best,
@@ -254,7 +254,7 @@ class SOM:
 						converged = True
 						epochs_converged = iteration+1
 						return (converged, epochs_converged)
-		
+
 		return (converged, epochs_converged)
 
 	def map(self, entry, type='name'):

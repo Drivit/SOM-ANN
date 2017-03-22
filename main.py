@@ -21,17 +21,20 @@ def main():
 	#Load data
 	training_set = []
 	for row in workspace:
-		for item in row:
-			training_set.append(np.array([item.value]))
+		class_name = row[0].value # first column is class name
+
+		for item in row[1:]: # skip first column
+			inputs = np.array([item.value])
+			training_set.append((inputs, class_name))
 
 	#Create SOM ANN
-	entry_size = len(training_set[0])
-	som_ann = SOM((entry_size, 4, 4))
+	som_ann = SOM((1, 4, 4))
+
 	#Train network
 	print 'Wait, I\'m traning...'
-	som_ann.train(training_set, 200, -1, 'quadratic')
+	som_ann.train([i[0] for i in training_set], 200, -1, 'quadratic')
 
-	somplot(som_ann)
+	somplot(som_ann, training_set)
 
 
 if __name__ == '__main__':
