@@ -264,6 +264,12 @@ class SOM:
 		Parameters
 		----------
 		entry: vector of M-Dimension to be mapped
+		type: string to set the result type
+			values
+			------
+			name: return the class name of the mapped object
+			m_point: return the matrix point of the neuron activated
+			v_index return the index of the neuron activated
 		'''
 		distance = self._calculate_sinaptic_potential(entry)
 		best = self._get_best_nueron(distance)
