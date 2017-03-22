@@ -257,7 +257,7 @@ class SOM:
 		
 		return (converged, epochs_converged)
 
-	def map(self, entry):
+	def map(self, entry, type='name'):
 		'''
 		Function to mapping an entry in the SOM.
 
@@ -269,7 +269,12 @@ class SOM:
 		best = self._get_best_nueron(distance)
 		class_name = self._class_list[best]
 
-		return class_name
+		if type == 'name':
+			return class_name
+		elif type == 'm_point':
+			return self._vector_to_matrix_point(best)
+		elif type == 'v_index':
+			return best
 
 	def get_mapped_classes(self):
 		'''
