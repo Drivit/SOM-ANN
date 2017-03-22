@@ -26,10 +26,10 @@ def main():
 
 	#Create SOM ANN
 	entry_size = len(training_set[0])
-	som_ann = SOM((entry_size, 2, 2))
+	som_ann = SOM((entry_size, 4, 4))
 	#Train network
 	print 'Wait, I\'m traning...'
-	som_ann.train(training_set, 200)
+	som_ann.train(training_set, 200, -1, 'quadratic')
 
 	somplot(som_ann)
 
