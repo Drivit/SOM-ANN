@@ -4,8 +4,6 @@ import numpy as np
 from openpyxl import load_workbook
 
 def main():
-	som_ann = SOM((28, 2, 2))
-
 	#Load .xls .xlsx file
 	file_name = raw_input('File name: ')
 	work_book = load_workbook(file_name)
@@ -21,8 +19,14 @@ def main():
 	workspace = work_sheet[begin_position : end_position] #Workspace(begin, end)
 
 	#Load data
-	training_set = np.array([[i.value for i in j] for j in workspace])
+	training_set = []
+	for row in workspace:
+		for item in row:
+			training_set.append(np.array([item.value]))
 
+	#Create SOM ANN
+	entry_size = len(training_set[0])
+	som_ann = SOM((entry_size, 2, 2))
 	#Train network
 	print 'Wait, I\'m traning...'
 	som_ann.train(training_set, 200)
